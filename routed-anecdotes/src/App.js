@@ -4,8 +4,8 @@ import {
   Switch,
   Route,
   Link,
-  useRouteMatch,
-  useLocation,
+  // useRouteMatch,
+  // useLocation,
   useHistory,
   useParams,
 } from "react-router-dom";
@@ -79,6 +79,7 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
+  const history = useHistory();
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
@@ -91,6 +92,7 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+    history.push("/");
   };
 
   return (
@@ -164,13 +166,28 @@ const App = () => {
 
   const [notification, setNotification] = useState("");
 
+  const Notification = () => {
+    const style = {
+      border: "solid",
+      padding: 10,
+      borderWidth: 1,
+    };
+
+    return <div style={style}>{notification}</div>;
+  };
+
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
     setAnecdotes(anecdotes.concat(anecdote));
+    setNotification(`a new anecdote ${anecdote.content} created!`);
+    setTimeout(() => {
+      setNotification(null);
+    }, 10000);
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
+  // eslint-disable-next-line no-unused-vars
   const vote = (id) => {
     const anecdote = anecdoteById(id);
 
@@ -192,6 +209,7 @@ const App = () => {
       <h1>Software anecdotes</h1>
 
       <Menu />
+      <Notification />
 
       <Switch>
         <Route path="/about">
