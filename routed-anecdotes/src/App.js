@@ -88,9 +88,9 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     history.push("/");
@@ -98,8 +98,6 @@ const CreateNew = (props) => {
   const content = useField("content");
   const author = useField("author");
   const info = useField("info");
-
-  console.log(content, author, info);
 
   return (
     <div>
