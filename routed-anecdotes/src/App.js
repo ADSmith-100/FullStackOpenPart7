@@ -80,10 +80,13 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const history = useHistory();
   // const [content, setContent] = useState("");
   // const [author, setAuthor] = useState("");
   // const [info, setInfo] = useState("");
+
+  // const handleReset = (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -95,9 +98,18 @@ const CreateNew = (props) => {
     });
     history.push("/");
   };
-  const content = useField("content");
-  const author = useField("author");
-  const info = useField("info");
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    contentReset();
+    authorReset();
+    infoReset();
+  };
+
+  const { reset: contentReset, ...content } = useField("text");
+  const { reset: authorReset, ...author } = useField("text");
+  const { reset: infoReset, ...info } = useField("text");
+  const history = useHistory();
 
   return (
     <div>
@@ -107,7 +119,7 @@ const CreateNew = (props) => {
           content
           <input
             {...content}
-            // name="content"
+            name="content"
             // value={content}
             // onChange={(e) => setContent(e.target.value)}
           />
@@ -116,7 +128,7 @@ const CreateNew = (props) => {
           author
           <input
             {...author}
-            // name="author"
+            name="author"
             // value={author}
             // onChange={(e) => setAuthor(e.target.value)}
           />
@@ -125,12 +137,13 @@ const CreateNew = (props) => {
           url for more info
           <input
             {...info}
-            // name="info"
+            name="info"
             // value={info}
             // onChange={(e) => setInfo(e.target.value)}
           />
         </div>
         <button>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
   );
