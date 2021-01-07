@@ -1,12 +1,20 @@
 {
   "notes": [
     {
-      "content": "custom-hookit aivan mahtavia",
+      "content": "custom-hooks are awesome!",
       "id": 1
     },
     {
-      "content": "paras feature ikinä <3",
+      "content": "best feature ever <3",
       "id": 2
+    },
+    {
+      "content": "shart",
+      "id": 3
+    },
+    {
+      "content": "test",
+      "id": 4
     }
   ],
   "persons": [
@@ -14,6 +22,31 @@
       "name": "mluukkai",
       "number": "040-5483923",
       "id": 1
+    },
+    {
+      "name": "queef",
+      "number": "jkjk",
+      "id": 2
+    },
+    {
+      "name": "ds",
+      "number": "dsa",
+      "id": 3
+    },
+    {
+      "name": "ds",
+      "number": "dsa",
+      "id": 4
+    },
+    {
+      "name": "fdsfsd",
+      "number": "fdsfsd",
+      "id": 5
+    },
+    {
+      "name": "test",
+      "number": "ttt",
+      "id": 6
     }
   ]
 }
