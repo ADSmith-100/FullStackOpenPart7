@@ -1,4 +1,21 @@
-const blogReducer = (state = [], action) => {
+const initialState = [
+  {
+    id: 1,
+    title: "the app state is in redux store",
+    author: "Ben Dover",
+    url: "www.suckass.com",
+    likes: 69,
+  },
+  {
+    id: 2,
+    title: "felching",
+    author: "Stupid GUY",
+    url: "www.suckass.com",
+    likes: 2,
+  },
+];
+
+const blogReducer = (state = initialState, action) => {
   if (action.type === "NEW_BLOG") {
     return [...state, action.data];
   }
