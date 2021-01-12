@@ -11,7 +11,7 @@ const Blog = ({ blog }) => {
 
 const Blogs = () => {
   //   const dispatch = useDispatch();
-  const blogs = useSelector((state) => state);
+  const blogs = useSelector((state) => state.blogs);
 
   return (
     <ul>
