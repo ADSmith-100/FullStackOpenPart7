@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
+import { setNotification } from "../reducers/notificationReducer";
 
 const NewBlog = (props) => {
   const [visible, setVisible] = useState(false);
@@ -22,6 +23,9 @@ const NewBlog = (props) => {
     event.target.author.value = "";
     event.target.url.value = "";
     dispatch(createBlog(title, author, url));
+    dispatch(
+      setNotification(`you created '${title}' by ${author}`, 10, "success")
+    );
   };
 
   return (

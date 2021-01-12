@@ -1,10 +1,15 @@
-const notificationReducer = (state = "", action) => {
+const initialState = {
+  content: null,
+  type: null,
+};
+
+const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case "NOTIFY_REMOVE": {
-      return action.data.notification;
+      return action.data;
     }
     case "SET_NOTIFY": {
-      return action.data.notification;
+      return action.data;
     }
 
     default:
@@ -16,8 +21,8 @@ export const notifyRemove = (content) => {
   return {
     type: "NOTIFY_REMOVE",
     data: {
-      content,
-      notification: null,
+      type: "",
+      content: null,
     },
   };
 };
@@ -28,10 +33,7 @@ export const setNotification = (content, time, type) => {
   return async (dispatch) => {
     dispatch({
       type: "SET_NOTIFY",
-      data: {
-        notification: content,
-        type: type,
-      },
+      data: { content, type },
     });
 
     if (timerId) {
