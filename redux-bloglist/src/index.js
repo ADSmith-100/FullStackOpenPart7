@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createStore } from "redux";
-import blogReducer, { createBlog } from "./reducers/blogReducer";
+import { Provider } from "react-redux";
+import App from "./App";
+import blogReducer from "./reducers/blogReducer";
 
 const store = createStore(blogReducer);
-
 store.dispatch({
   type: "NEW_BLOG",
   data: {
@@ -27,40 +28,9 @@ store.dispatch({
   },
 });
 
-const App = () => {
-  const addBlog = (event) => {
-    event.preventDefault();
-    const title = event.target.title.value;
-    const author = event.target.author.value;
-    const url = event.target.url.value;
-    event.target.title.value = "";
-    event.target.author.value = "";
-    event.target.url.value = "";
-    store.dispatch(createBlog(title, author, url));
-  };
-
-  return (
-    <div>
-      <form onSubmit={addBlog}>
-        <input name="author" />
-        <input name="title" />
-        <input name="url" />
-        <button type="submit">add</button>
-      </form>
-      <ul>
-        {store.getState().map((blog) => (
-          <li key={blog.id}>
-            {blog.title} {blog.author}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const renderApp = () => {
-  ReactDOM.render(<App />, document.getElementById("root"));
-};
-
-renderApp();
-store.subscribe(renderApp);
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
