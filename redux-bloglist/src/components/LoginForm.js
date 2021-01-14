@@ -4,6 +4,8 @@ import loginService from "../services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 
+//will need to refactor to save info about user with REDUX
+
 const LoginForm = () => {
   const dispatch = useDispatch();
 
