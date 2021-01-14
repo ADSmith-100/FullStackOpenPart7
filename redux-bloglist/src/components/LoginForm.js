@@ -3,6 +3,7 @@ import blogService from "../services/blogs";
 import loginService from "../services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
+import { initializeUser } from "../reducers/userReducer";
 
 //will need to refactor to save info about user with REDUX
 
@@ -10,14 +11,15 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      console.log(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
+    dispatch(initializeUser());
+    // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    // if (loggedUserJSON) {
+    //   const user = JSON.parse(loggedUserJSON);
+    //   setUser(user);
+    //   console.log(user);
+    //   blogService.setToken(user.token);
+    // }
+  }, [dispatch]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

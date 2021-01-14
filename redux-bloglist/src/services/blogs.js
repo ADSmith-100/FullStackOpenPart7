@@ -1,7 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
+// "http://localhost:3001/blogs";
 // const baseUrl = "/api/blogs";
-const baseUrl = "http://localhost:3001/blogs";
+const baseUrl = "/api/blogs";
 
 let token = null;
 
@@ -15,8 +16,11 @@ const getAll = () => {
 };
 
 const create = async (title, author, url) => {
+  const config = {
+    headers: { Authorization: token },
+  };
   const object = { title, author, url, likes: 0 };
-  const response = await axios.post(baseUrl, object);
+  const response = await axios.post(baseUrl, object, config);
   return response.data;
 };
 
