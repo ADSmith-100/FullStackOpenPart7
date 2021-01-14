@@ -5,6 +5,8 @@ import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
+  const userActive = useSelector((state) => state.user.name);
+
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -64,11 +66,11 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
           </p>
           <p>{blog.author}</p>
           <p>{blog.url}</p>
-          {/* {blog.user.name === undefined ? (
+          {blog.user.name === undefined ? (
             <p>waiting...</p>
           ) : (
             <p>user: {blog.user.name}</p>
-          )} */}
+          )}
 
           <p>
             likes: {blog.likes}{" "}
@@ -76,16 +78,16 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
               like
             </button>{" "}
           </p>
-          <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
+          {/* <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
             remove
-          </button>
-          {/* {blog.user.name === user ? (
+          </button> */}
+          {blog.user.name === userActive ? (
             <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
               remove
             </button>
           ) : (
             <></>
-          )} */}
+          )}
         </div>
       )}
     </div>
@@ -107,13 +109,8 @@ const Blogs = () => {
           dispatch(setNotification(`you deleted '${name}'`, 10, "success"));
         })
         .catch((error) => {
-          dispatch(
-            setNotification(
-              `'${name}' was already removed from server`,
-              10,
-              "error"
-            )
-          );
+          console.log(error);
+          dispatch(setNotification("something went wrong", 10, "error"));
           // notifyWith(`'${name}' was already removed from server`, error);
           // setErrorMessage(`'${name}' was already removed from server`);
           // setTimeout(() => {
