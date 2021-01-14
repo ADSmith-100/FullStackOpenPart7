@@ -98,6 +98,12 @@ const Blogs = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
 
+  const blogsByLikes = [...blogs];
+  blogsByLikes.sort(
+    (a, b) => (a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0)
+    //could also use return a.likes.localeCompare(b.likes)I think
+  );
+
   const removeBlog = (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       blogService
@@ -143,7 +149,7 @@ const Blogs = () => {
 
   return (
     <ul>
-      {blogs.map((blog) => (
+      {blogsByLikes.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
