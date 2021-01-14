@@ -4,6 +4,7 @@ import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
 import { useDispatch } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const App = () => {
     <div>
       <h1>Blog App REDUX</h1>
       <Notification />
+      <LoginForm />
       <NewBlog />
       <Blogs />
     </div>

@@ -32,18 +32,12 @@ const blogReducer = (state = [], action) => {
   }
 };
 
-const generateId = () => Number((Math.random() * 1000000).toFixed(0));
+// const generateId = () => Number((Math.random() * 1000000).toFixed(0));
 
-export const createBlog = (title, author, url) => {
+export const createBlog = (data) => {
   return {
     type: "NEW_BLOG",
-    data: {
-      id: generateId(),
-      title,
-      author,
-      url,
-      votes: 0,
-    },
+    data,
   };
 };
 

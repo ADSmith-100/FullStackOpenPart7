@@ -41,6 +41,19 @@
       "author": "Robert C. Martin",
       "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
       "likes": 2
+    },
+    {
+      "title": "FARTS",
+      "author": "ddddd",
+      "url": "http://www.durrr.com",
+      "id": "4f6rCrV"
+    },
+    {
+      "title": "TEST",
+      "author": "test",
+      "url": "https://www.durrr.com",
+      "votes": 0,
+      "id": "BhTNfBC"
     }
   ],
   "users": [
