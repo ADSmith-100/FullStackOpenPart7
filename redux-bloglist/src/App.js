@@ -4,9 +4,12 @@ import Blogs from "./components/Blogs";
 import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
-// import { initializeUser } from "./reducers/userReducer";
+import { initializeUsers } from "./reducers/usersReducer";
 import LoginForm from "./components/LoginForm";
 import { clearUser } from "./reducers/userReducer";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Menu from "./components/Menu";
+import Users from "./components/Users";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,6 +17,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(initializeUsers());
   }, [dispatch]);
 
   // useEffect(() => {
@@ -28,25 +35,33 @@ const App = () => {
   // }, [dispatch]);
 
   return (
-    <div>
-      <h1>Blog App REDUX</h1>
-      <Notification />
-      {user === null ? (
-        <LoginForm />
-      ) : (
+    <Router>
+      {/* <Menu /> */}
+      <Switch>
         <div>
-          <div>
-            {user.name} logged-in{" "}
-            <button id="logout" onClick={() => dispatch(clearUser())}>
-              logout
-            </button>
-          </div>
+          <h1>Blog App REDUX</h1>
+          <Notification />
+          {user === null ? (
+            <LoginForm />
+          ) : (
+            <div>
+              <div>
+                {user.name} logged-in{" "}
+                <button id="logout" onClick={() => dispatch(clearUser())}>
+                  logout
+                </button>
+              </div>
 
-          <NewBlog />
-          <Blogs />
+              <NewBlog />
+              <Blogs />
+              <Route path="/users">
+                <Users />
+              </Route>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </Switch>
+    </Router>
   );
 };
 export default App;
