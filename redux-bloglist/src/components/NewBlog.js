@@ -23,13 +23,16 @@ const NewBlog = (props) => {
     event.target.title.value = "";
     event.target.author.value = "";
     event.target.url.value = "";
-    const newBlog = await blogService.create(title, author, url);
-    dispatch(createBlog(newBlog));
-    dispatch(
-      setNotification(`you created '${title}' by ${author}`, 10, "success")
-    );
+    try {
+      const newBlog = await blogService.create(title, author, url);
+      dispatch(createBlog(newBlog));
+      dispatch(
+        setNotification(`you created '${title}' by ${author}`, 10, "success")
+      );
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, 10, "error"));
+    }
   };
-
   return (
     <div>
       <div style={hideWhenVisible}>
