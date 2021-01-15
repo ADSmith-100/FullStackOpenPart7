@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import blogService from "../services/blogs";
-import loginService from "../services/login";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { initializeUser } from "../reducers/userReducer";
@@ -9,6 +8,7 @@ import { initializeUser } from "../reducers/userReducer";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   // useEffect(() => {
   //   dispatch(initializeUser());
@@ -24,7 +24,7 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // eslint-disable-next-line no-unused-vars
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   // const handleLogout = (e) => {
   //   e.preventDefault();
@@ -34,21 +34,14 @@ const LoginForm = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
     console.log("logging in with", username, password);
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-
-      blogService.setToken(user.token);
-      setUser(user);
+      dispatch(initializeUser(username, password));
 
       setUsername("");
       setPassword("");
-
-      dispatch(initializeUser());
+      history.push("/");
     } catch (exception) {
       dispatch(setNotification(`wrong credentials`, 10, "error"));
     }

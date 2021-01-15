@@ -5,6 +5,8 @@ import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/usersReducer";
+import { initializeUser } from "./reducers/userReducer";
+
 import LoginForm from "./components/LoginForm";
 import { clearUser } from "./reducers/userReducer";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -23,6 +25,10 @@ const App = () => {
     dispatch(initializeUsers());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(initializeUser());
+  }, [dispatch]);
+
   // useEffect(() => {
   //   dispatch(initializeUser());
   //   //   // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -37,29 +43,23 @@ const App = () => {
   return (
     <Router>
       {/* <Menu /> */}
-      <Switch>
-        <div>
-          <h1>Blog App REDUX</h1>
-          <Notification />
-          {user === null ? (
-            <LoginForm />
-          ) : (
-            <div>
-              <div>
-                {user.name} logged-in{" "}
-                <button id="logout" onClick={() => dispatch(clearUser())}>
-                  logout
-                </button>
-              </div>
 
-              <NewBlog />
-              <Blogs />
-              <Route path="/users">
-                <Users />
-              </Route>
-            </div>
-          )}
-        </div>
+      <div>
+        <h1>Blog App REDUX</h1>
+        <Notification />
+        <Menu user={user} />
+      </div>
+      <Switch>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+        <Route path="/">
+          <NewBlog />
+          <Blogs user={user} />
+        </Route>
       </Switch>
     </Router>
   );

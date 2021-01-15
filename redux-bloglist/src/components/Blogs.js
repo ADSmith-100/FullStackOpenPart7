@@ -5,7 +5,7 @@ import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
 
 const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
-  const userActive = useSelector((state) => state.user.name);
+  const userActive = user;
 
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
@@ -49,6 +49,7 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
 
   return (
     <div className="blog">
+      <h2>Da Blogs</h2>
       {extraDataVisible === false ? (
         <div style={blogStyle}>
           {blog.title} {blog.author}{" "}
