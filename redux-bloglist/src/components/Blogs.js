@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
+import { initializeUser } from "../reducers/userReducer";
 
 const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
-  const userActive = user;
+  const userActive = useSelector((state) => state.user.name);
 
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
@@ -49,7 +50,6 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
 
   return (
     <div className="blog">
-      <h2>Da Blogs</h2>
       {extraDataVisible === false ? (
         <div style={blogStyle}>
           {blog.title} {blog.author}{" "}
@@ -149,16 +149,19 @@ const Blogs = () => {
   };
 
   return (
-    <ul>
-      {blogsByLikes.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          addLikes={() => addLikesTo(blog.id)}
-          removeBlog={() => removeBlog(blog.id, blog.title)}
-        />
-      ))}
-    </ul>
+    <>
+      <h2>Blogs</h2>
+      <ul>
+        {blogsByLikes.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            addLikes={() => addLikesTo(blog.id)}
+            removeBlog={() => removeBlog(blog.id, blog.title)}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 
