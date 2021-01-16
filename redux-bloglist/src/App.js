@@ -8,7 +8,12 @@ import { initializeUsers } from "./reducers/usersReducer";
 
 import LoginForm from "./components/LoginForm";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Menu from "./components/Menu";
 import Users from "./components/Users";
 
@@ -50,7 +55,7 @@ const App = () => {
       </div>
       <Switch>
         <Route path="/users">
-          <Users />
+          {user ? <Users /> : <Redirect to="/login" />}
         </Route>
         <Route path="/login">
           <LoginForm />
