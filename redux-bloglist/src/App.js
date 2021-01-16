@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import Menu from "./components/Menu";
 import Users from "./components/Users";
+import UserBlogs from "./components/UserBlogs";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,9 @@ const App = () => {
         <Menu user={user} />
       </div>
       <Switch>
+        <Route path="/users/:id">
+          <UserBlogs />
+        </Route>
         <Route path="/users">
           {user ? <Users /> : <Redirect to="/login" />}
         </Route>
