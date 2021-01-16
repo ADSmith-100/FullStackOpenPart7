@@ -3,10 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
-import { initializeUser } from "../reducers/userReducer";
+// import { loggedUser } from "../reducers/userReducer";
 
 const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
-  const userActive = useSelector((state) => state.user.name);
+  // useEffect(() => {
+  //   dispatch(loggedUser());
+  // }, [dispatch]);
+
+  // const userActive = window.localStorage.getItem(
+  //   "loggedBlogappUser",
+  //   JSON.stringify(user) || null
+  // );
+
+  // console.log(userActive);
+
+  const userActive = useSelector((state) => state.user) || "butt";
 
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
@@ -82,7 +93,7 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
           {/* <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
             remove
           </button> */}
-          {blog.user.name === userActive ? (
+          {blog.user.name === userActive.name ? (
             <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
               remove
             </button>

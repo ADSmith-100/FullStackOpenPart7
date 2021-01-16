@@ -11,6 +11,9 @@ const userReducer = (state = null, action) => {
     case "CLEAR_USER": {
       return action.data;
     }
+    // case "INIT_LOGGED": {
+    //   return action.data.name;
+    // }
     default:
       return state;
   }
@@ -35,5 +38,11 @@ export const clearUser = () => {
     data: null,
   };
 };
+
+// export const loggedUser = () => {
+//   return {
+//     type: "INIT_LOGGED",
+//   };
+// };
 
 export default userReducer;
