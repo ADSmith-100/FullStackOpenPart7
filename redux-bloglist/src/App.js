@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import NewBlog from "./components/NewBlog";
 import Blogs from "./components/Blogs";
+import BlogView from "./components/BlogView";
 import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
@@ -21,6 +22,7 @@ import UserBlogs from "./components/UserBlogs";
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const blogs = useSelector((state) => state.blogs);
 
   useEffect(() => {
     dispatch(initializeBlogs());
@@ -54,7 +56,11 @@ const App = () => {
         <Notification />
         <Menu user={user} />
       </div>
+
       <Switch>
+        <Route path="/blogs/:id">
+          <BlogView blogs={blogs} />
+        </Route>
         <Route path="/users/:id">
           <UserBlogs />
         </Route>

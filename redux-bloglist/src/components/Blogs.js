@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
+import { Link } from "react-router-dom";
+
 import { setNotification } from "../reducers/notificationReducer";
 // import { loggedUser } from "../reducers/userReducer";
 
-const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
+export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
   // useEffect(() => {
   //   dispatch(loggedUser());
   // }, [dispatch]);
@@ -18,6 +20,11 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
   // console.log(userActive);
 
   const userActive = useSelector((state) => state.user) || "butt";
+
+  // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+
+  // const userA = JSON.parse(loggedUserJSON);
+  // console.log(userA.name);
 
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
@@ -90,9 +97,7 @@ const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
               like
             </button>{" "}
           </p>
-          {/* <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
-            remove
-          </button> */}
+
           {blog.user.name === userActive.name ? (
             <button onClick={() => handleRemoveBlog(blog.id, blog.title)}>
               remove
@@ -161,17 +166,30 @@ const Blogs = () => {
 
   return (
     <>
-      <h2>Blogs</h2>
-      <ul>
-        {blogsByLikes.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            addLikes={() => addLikesTo(blog.id)}
-            removeBlog={() => removeBlog(blog.id, blog.title)}
-          />
+      <div>
+        <h2>Blogs</h2>
+
+        {blogsByLikes.map((b) => (
+          <p key={b.id}>
+            <Link to={`/blogs/${b.id}`}>
+              {b.title}
+              {b.author}
+            </Link>
+          </p>
         ))}
-      </ul>
+      </div>
+      {/* <h2>Blogs</h2>
+        <ul>
+          {blogsByLikes.map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              addLikes={() => addLikesTo(blog.id)}
+              removeBlog={() => removeBlog(blog.id, blog.title)}
+            />
+          ))}
+        </ul>
+      </div> */}
     </>
   );
 };
