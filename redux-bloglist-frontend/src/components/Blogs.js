@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { initializeBlogs } from "../reducers/blogReducer";
+// import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { Link } from "react-router-dom";
 import { loggedUser } from "../reducers/userReducer";
 
-import { setNotification } from "../reducers/notificationReducer";
+// import { setNotification } from "../reducers/notificationReducer";
 // import { loggedUser } from "../reducers/userReducer";
 
 export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
@@ -115,7 +115,7 @@ export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
 };
 
 const Blogs = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
 
   const blogsByLikes = [...blogs];
@@ -124,48 +124,48 @@ const Blogs = () => {
     //could also use return a.likes.localeCompare(b.likes)I think
   );
 
-  const removeBlog = (id, name) => {
-    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      blogService
+  // const removeBlog = (id, name) => {
+  //   if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+  //     blogService
 
-        .remove(id)
-        .then(() => {
-          const newBlogs = blogs.filter((b) => b.id !== id);
-          dispatch(initializeBlogs(newBlogs));
-          dispatch(setNotification(`you deleted '${name}'`, 10, "success"));
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch(setNotification("something went wrong", 10, "error"));
-          // notifyWith(`'${name}' was already removed from server`, error);
-          // setErrorMessage(`'${name}' was already removed from server`);
-          // setTimeout(() => {
-          //   setErrorMessage(null);
-          // }, 5000);
-          const updateBlogs = blogs.filter((p) => p.id !== id);
-          dispatch(initializeBlogs(updateBlogs));
-        });
-    } else {
-      alert("operation cancelled");
-    }
-  };
+  //       .remove(id)
+  //       .then(() => {
+  //         const newBlogs = blogs.filter((b) => b.id !== id);
+  //         dispatch(initializeBlogs(newBlogs));
+  //         dispatch(setNotification(`you deleted '${name}'`, 10, "success"));
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         dispatch(setNotification("something went wrong", 10, "error"));
+  //         // notifyWith(`'${name}' was already removed from server`, error);
+  //         // setErrorMessage(`'${name}' was already removed from server`);
+  //         // setTimeout(() => {
+  //         //   setErrorMessage(null);
+  //         // }, 5000);
+  //         const updateBlogs = blogs.filter((p) => p.id !== id);
+  //         dispatch(initializeBlogs(updateBlogs));
+  //       });
+  //   } else {
+  //     alert("operation cancelled");
+  //   }
+  // };
 
-  const addLikesTo = (id) => {
-    const blog = blogs.find((b) => b.id === id);
-    const changedBlog = {
-      ...blog,
-      likes: blog.likes + 1,
-    };
+  // const addLikesTo = (id) => {
+  //   const blog = blogs.find((b) => b.id === id);
+  //   const changedBlog = {
+  //     ...blog,
+  //     likes: blog.likes + 1,
+  //   };
 
-    blogService.update(id, changedBlog).then((returnedBlog) => {
-      // let jsonBlog = JSON.parse(returnedBlog);
-      // nope server responds with object this throws error
-      //returnedBlog from server was not in a format that the front end totally could use.  The User object was missing - only had id.
-      let newBlogs = blogs.map((blog) => (blog.id !== id ? blog : changedBlog));
-      dispatch(initializeBlogs(newBlogs));
-      dispatch(setNotification(`you liked '${blog.title}'`, 10, "success"));
-    });
-  };
+  //   blogService.update(id, changedBlog).then((returnedBlog) => {
+  //     // let jsonBlog = JSON.parse(returnedBlog);
+  //     // nope server responds with object this throws error
+  //     //returnedBlog from server was not in a format that the front end totally could use.  The User object was missing - only had id.
+  //     let newBlogs = blogs.map((blog) => (blog.id !== id ? blog : changedBlog));
+  //     dispatch(initializeBlogs(newBlogs));
+  //     dispatch(setNotification(`you liked '${blog.title}'`, 10, "success"));
+  //   });
+  // };
 
   return (
     <>

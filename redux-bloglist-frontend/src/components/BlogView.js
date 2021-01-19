@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import blogService from "../services/blogs";
 import { initializeBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import NewComment from "./NewComment";
 
 const BlogView = (props) => {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const BlogView = (props) => {
   }, [dispatch]);
 
   const history = useHistory();
-  console.log(props);
 
   //   const blogs = props.blogs;
   const blogs = props.blogs;
@@ -21,8 +21,7 @@ const BlogView = (props) => {
 
   const blogA = blogs.filter((b) => b.id === match.params.id);
 
-  console.log(blogA);
-  const userActive = useSelector((state) => state.user) || "butt";
+  // const userActive = useSelector((state) => state.user) || "butt";
 
   const handleRemoveBlog = (id, name) => {
     removeBlog(id, name);
@@ -68,8 +67,7 @@ const BlogView = (props) => {
       // nope server responds with object this throws error
       //returnedBlog from server was not in a format that the front end totally could use.  The User object was missing - only had id.
       let newBlogs = blogs.map((blog) => (blog.id !== id ? blog : changedBlog));
-      console.log(newBlogs);
-      console.log("blogs", blogs);
+
       dispatch(initializeBlogs(newBlogs));
       dispatch(
         setNotification(`you liked '${changedBlog.title}'`, 10, "success")
@@ -104,6 +102,15 @@ const BlogView = (props) => {
         ) : (
           <></>
         )}
+        <div>
+          <p>Comments</p>
+          <ul>
+            {blogA[0].comments.map((b) => (
+              <li>{b}</li>
+            ))}
+          </ul>
+          <NewComment blog={blogA[0]} blogs={props.blogs} />
+        </div>
       </div>
     );
 };

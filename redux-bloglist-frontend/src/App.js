@@ -30,9 +30,6 @@ const App = () => {
 
   if (user === null) user = JSON.parse(loggedUserJSON);
 
-  console.log(JSON.parse(loggedUserJSON));
-  console.log(user);
-
   useEffect(() => {
     dispatch(initializeBlogs());
   }, [dispatch]);
@@ -50,7 +47,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      console.log(user);
       blogService.setToken(user.token);
     }
   }, [dispatch]);

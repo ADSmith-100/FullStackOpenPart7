@@ -33,6 +33,13 @@ const create = async (title, author, url) => {
 //   return response.data;
 // };
 
+const addComment = async (blogId, comment) => {
+  const object = { comment: comment };
+  // eslint-disable-next-line no-useless-escape
+  const response = await axios.post(`${baseUrl}\/${blogId}/comments`, object);
+  return response.data;
+};
+
 const update = (id, newObject) => {
   // eslint-disable-next-line no-useless-escape
   const request = axios.put(`${baseUrl}\/${id}`, newObject);
@@ -47,4 +54,4 @@ const remove = async (id) => {
   return request.data;
 };
 
-export default { getAll, create, update, setToken, remove };
+export default { getAll, create, update, setToken, remove, addComment };
