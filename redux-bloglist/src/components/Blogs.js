@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { Link } from "react-router-dom";
+import { loggedUser } from "../reducers/userReducer";
 
 import { setNotification } from "../reducers/notificationReducer";
 // import { loggedUser } from "../reducers/userReducer";
 
 export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
-  // useEffect(() => {
-  //   dispatch(loggedUser());
-  // }, [dispatch]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loggedUser());
+  }, [dispatch]);
 
   // const userActive = window.localStorage.getItem(
   //   "loggedBlogappUser",

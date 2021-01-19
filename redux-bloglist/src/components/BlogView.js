@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import blogService from "../services/blogs";
 import { initializeBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
@@ -8,14 +8,51 @@ import { setNotification } from "../reducers/notificationReducer";
 const BlogView = (props) => {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(initializeBlogs());
+  }, [dispatch]);
+
+  const history = useHistory();
+  console.log(props);
+
   //   const blogs = props.blogs;
-  const blogs = useSelector((state) => state.blogs);
+  const blogs = props.blogs;
   const match = useRouteMatch("/blogs/:id");
 
   const blogA = blogs.filter((b) => b.id === match.params.id);
 
-  const handleAddLike = (id) => {
-    addLikesTo(id);
+  console.log(blogA);
+  const userActive = useSelector((state) => state.user) || "butt";
+
+  const handleRemoveBlog = (id, name) => {
+    removeBlog(id, name);
+  };
+
+  const removeBlog = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      blogService
+
+        .remove(id)
+        .then(() => {
+          history.push("/");
+          const newBlogs = blogs.filter((b) => b.id !== id);
+          dispatch(initializeBlogs(newBlogs));
+          dispatch(setNotification(`you deleted '${name}'`, 10, "success"));
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(setNotification("something went wrong", 10, "error"));
+          // notifyWith(`'${name}' was already removed from server`, error);
+          // setErrorMessage(`'${name}' was already removed from server`);
+          // setTimeout(() => {
+          //   setErrorMessage(null);
+          // }, 5000);
+          const updateBlogs = blogs.filter((p) => p.id !== id);
+          dispatch(initializeBlogs(updateBlogs));
+        });
+    } else {
+      alert("operation cancelled");
+    }
   };
 
   const addLikesTo = (id) => {
@@ -39,24 +76,36 @@ const BlogView = (props) => {
       );
     });
   };
+  if (!blogA[0]) {
+    return null;
+  } else
+    return (
+      // <Blog />
+      <div>
+        <h2>{blogA[0].title}</h2>
+        <p>
+          <a href={blogA[0].url}>{blogA[0].url}</a>
+        </p>
+        <p>
+          {blogA[0].likes}{" "}
+          <button id="like" onClick={() => addLikesTo(blogA[0].id)}>
+            like
+          </button>{" "}
+        </p>
 
-  console.log(blogA[0].title);
+        <p>created by {blogA[0].user.name || null} </p>
 
-  return (
-    // <Blog />
-    <div>
-      <h2>{blogA[0].title}</h2>
-      <p>
-        <a href={blogA[0].url}>{blogA[0].url}</a>
-      </p>
-      <p>
-        {blogA[0].likes}{" "}
-        <button id="like" onClick={() => addLikesTo(blogA[0].id)}>
-          like
-        </button>{" "}
-      </p>
-    </div>
-  );
+        {props.user === null ? (
+          <></>
+        ) : blogA[0].user.name === props.user.name ? (
+          <button onClick={() => handleRemoveBlog(blogA[0].id, blogA[0].title)}>
+            remove
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
+    );
 };
 
 export default BlogView;

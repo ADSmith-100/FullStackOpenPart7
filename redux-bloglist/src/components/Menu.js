@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../reducers/userReducer";
 
 const Menu = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   // const user = useSelector((state) => state.user);
 
   const padding = {
@@ -14,6 +15,7 @@ const Menu = (props) => {
   const handleLogout = (e) => {
     e.preventDefault();
     window.localStorage.removeItem("loggedBlogappUser");
+    history.push("/");
     dispatch(clearUser());
   };
   return (

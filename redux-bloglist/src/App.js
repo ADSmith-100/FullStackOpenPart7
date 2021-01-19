@@ -6,8 +6,10 @@ import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUsers } from "./reducers/usersReducer";
+import { initializeUser } from "./reducers/userReducer";
 
 import LoginForm from "./components/LoginForm";
+import blogService from "./services/blogs";
 
 import {
   BrowserRouter as Router,
@@ -21,8 +23,15 @@ import UserBlogs from "./components/UserBlogs";
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  let user = useSelector((state) => state.user);
   const blogs = useSelector((state) => state.blogs);
+
+  const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+
+  if (user === null) user = JSON.parse(loggedUserJSON);
+
+  console.log(JSON.parse(loggedUserJSON));
+  console.log(user);
 
   useEffect(() => {
     dispatch(initializeBlogs());
@@ -32,20 +41,19 @@ const App = () => {
     dispatch(initializeUsers());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(initializeUser());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(initializeUser());
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(initializeUser());
-  //   //   // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  //   //   // if (loggedUserJSON) {
-  //   //   //   const user = JSON.parse(loggedUserJSON);
-  //   //   //   setUser(user);
-  //   //   //   console.log(user);
-  //   //   //   blogService.setToken(user.token);
-  //   //   // }
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(initializeUser());
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      console.log(user);
+      blogService.setToken(user.token);
+    }
+  }, [dispatch]);
 
   return (
     <Router>
@@ -59,7 +67,7 @@ const App = () => {
 
       <Switch>
         <Route path="/blogs/:id">
-          <BlogView blogs={blogs} />
+          <BlogView blogs={blogs} user={user} />
         </Route>
         <Route path="/users/:id">
           <UserBlogs />
@@ -71,8 +79,8 @@ const App = () => {
           <LoginForm />
         </Route>
         <Route path="/">
-          <NewBlog />
           <Blogs user={user} />
+          <NewBlog user={user} />
         </Route>
       </Switch>
     </Router>

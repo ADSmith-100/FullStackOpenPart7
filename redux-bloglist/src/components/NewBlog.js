@@ -33,6 +33,9 @@ const NewBlog = (props) => {
       dispatch(setNotification(error.response.data.error, 10, "error"));
     }
   };
+  if (!props.user) {
+    return null;
+  }
   return (
     <div>
       <div style={hideWhenVisible}>

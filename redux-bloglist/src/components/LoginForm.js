@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { initializeUser } from "../reducers/userReducer";
+import loginService from "../services/login";
+import blogService from "../services/blogs";
 
 //will need to refactor to save info about user with REDUX
 
@@ -37,7 +39,10 @@ const LoginForm = () => {
 
     console.log("logging in with", username, password);
     try {
-      dispatch(initializeUser(username, password));
+      const user = await loginService.login({ username, password });
+      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
+      blogService.setToken(user.token);
+      dispatch(initializeUser(user));
 
       setUsername("");
       setPassword("");
