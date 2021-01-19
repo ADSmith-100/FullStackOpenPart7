@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 
 const getTokenFrom = (request) => {
   const authorization = request.get("authorization");
@@ -17,7 +18,7 @@ blogsRouter.get("/", async (request, response) => {
     name: 1,
     id: 1,
   });
-  response.json(blogs.map(blog => blog.toJSON()));
+  response.json(blogs.map((blog) => blog.toJSON()));
 });
 
 blogsRouter.get("/:id", (request, response, next) => {
@@ -53,7 +54,6 @@ blogsRouter.post("/", async (request, response) => {
   user.blogs = user.blogs.concat(savedBlog._id);
   await user.save();
   response.json(savedBlog);
-  
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
@@ -79,14 +79,49 @@ blogsRouter.put("/:id", async (request, response, next) => {
     likes: body.likes,
   };
 
-  const updatedNote = await Blog.findByIdAndUpdate(request.params.id, blog, {
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
     new: true,
-  });
+  }).populate("comments", { content: 1 });
   response.status(200);
-  response.json(updatedNote);
+  response.json(updatedBlog);
+});
+
+blogsRouter.post("/:id/comments", async (request, response) => {
+  const id = request.params.id;
+  const comment = request.body.comment;
+
+  try {
+    const blog = await Blog.findById(id);
+    if (blog) {
+      if (Array.isArray(blog.comments)) {
+        blog.comments.push(comment);
+      } else {
+        blog.comments = [comment];
+      }
+
+      const newBlog = await blog.save();
+
+      const fullBlog = await Blog.populate(newBlog, {
+        path: "user",
+      });
+
+      response.status(200).json(fullBlog);
+    } else {
+      response.status(400).json({
+        error: `No blog with the following id: ${id}`,
+      });
+    }
+    const udatedBlog = await Blog.findByIdAndUpdate(id, blog, {
+      new: true,
+    }).populate("user");
+  } catch (err) {
+    response.status(400).json({
+      error: err.message,
+    });
+  }
 });
 
 module.exports = blogsRouter;
 
 //something to do with how the backend is returning the saved blog.  It only sends the user id.  Need the user.name to populate the user name thing.
-//It only populates with the uesr name after a refresh when the database ref adds the user object into it.  
+//It only populates with the uesr name after a refresh when the database ref adds the user object into it.
