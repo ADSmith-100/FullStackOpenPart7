@@ -106,7 +106,7 @@ const BlogView = (props) => {
           <p>Comments</p>
           <ul>
             {blogA[0].comments.map((b) => (
-              <li>{b}</li>
+              <li key={b.id}>{b}</li>
             ))}
           </ul>
           <NewComment blog={blogA[0]} blogs={props.blogs} />
