@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
@@ -47,14 +48,20 @@ const NewBlog = (props) => {
       </div>
 
       <form style={showWhenVisible} onSubmit={addBlog}>
-        <h2>Create a new blog</h2>
-        author:{""}
-        <input name="author" />
-        title:{""}
-        <input name="title" />
-        url:{""}
-        <input name="url" />
-        <button type="submit">add</button>
+        <Form.Group>
+          <h2>Create a new blog</h2>
+          <Form.Label> author:</Form.Label>
+          <Form.Control name="author" />
+          <Form.Label>title:</Form.Label>
+
+          <Form.Control name="title" />
+          <Form.Label>url:</Form.Label>
+
+          <Form.Control name="url" />
+          <Button variant="primary" type="submit">
+            add
+          </Button>
+        </Form.Group>
       </form>
     </div>
   );

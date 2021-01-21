@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 const UserBlogs = (props) => {
   const blogs = useSelector((state) => state.blogs);
@@ -11,11 +12,6 @@ const UserBlogs = (props) => {
     blogs.filter((blog) => blog.user.id === match.params.id) || null;
   const user = users.filter((u) => u.id === match.params.id);
 
-  console.log(blogsByUser);
-  console.log(user[0]);
-  //   const blogsByUser= blogs.map((b)b.)
-  //     for each blog, the blog.user.id should match the id of the user you are viewing.
-
   //this works if the backend hasn't been able to send the user
   //info yet
 
@@ -26,9 +22,15 @@ const UserBlogs = (props) => {
       <div>
         <h1>{user[0].name}</h1>
         <h2>Added Blogs</h2>
-        {blogsByUser.map((b) => (
-          <li key={b.id}>{b.title}</li>
-        ))}
+        <Table striped>
+          <tbody>
+            {blogsByUser.map((b) => (
+              <tr key={b.id}>
+                <td>{b.title}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     );
 };

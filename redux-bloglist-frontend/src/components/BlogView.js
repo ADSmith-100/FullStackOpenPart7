@@ -5,6 +5,7 @@ import blogService from "../services/blogs";
 import { initializeBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import NewComment from "./NewComment";
+import { Table } from "react-bootstrap";
 
 const BlogView = (props) => {
   const dispatch = useDispatch();
@@ -103,12 +104,16 @@ const BlogView = (props) => {
           <></>
         )}
         <div>
-          <p>Comments</p>
-          <ul>
-            {blogA[0].comments.map((b) => (
-              <li key={b.id}>{b}</li>
-            ))}
-          </ul>
+          <h2>Comments</h2>
+          <Table striped>
+            <tbody>
+              {blogA[0].comments.map((b, i) => (
+                <tr key={i}>
+                  <td>{b}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
           <NewComment blog={blogA[0]} blogs={props.blogs} />
         </div>
       </div>

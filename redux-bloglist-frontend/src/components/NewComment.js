@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import blogService from "../services/blogs";
 import { initializeBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { Form, Button } from "react-bootstrap";
 
 const NewComment = (props) => {
   const dispatch = useDispatch();
@@ -33,10 +34,14 @@ const NewComment = (props) => {
   return (
     <div>
       <form onSubmit={addComment}>
-        <h2>Add a comment</h2>
-        comment:
-        <input name="comment" />
-        <button type="submit">add</button>
+        <Form.Group>
+          <h2>Add a comment</h2>
+          <Form.Label>comment:</Form.Label>
+          <Form.Control name="comment" />
+          <Button variant="primary " type="submit">
+            add
+          </Button>
+        </Form.Group>
       </form>
     </div>
   );

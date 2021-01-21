@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { initializeBlogs } from "../reducers/blogReducer";
 import blogService from "../services/blogs";
 import { Link } from "react-router-dom";
 import { loggedUser } from "../reducers/userReducer";
 
-// import { setNotification } from "../reducers/notificationReducer";
-// import { loggedUser } from "../reducers/userReducer";
+import { Table } from "react-bootstrap";
 
 export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
   const dispatch = useDispatch();
@@ -15,19 +13,7 @@ export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
     dispatch(loggedUser());
   }, [dispatch]);
 
-  // const userActive = window.localStorage.getItem(
-  //   "loggedBlogappUser",
-  //   JSON.stringify(user) || null
-  // );
-
-  // console.log(userActive);
-
   const userActive = useSelector((state) => state.user) || "butt";
-
-  // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-
-  // const userA = JSON.parse(loggedUserJSON);
-  // console.log(userA.name);
 
   const [extraDataVisible, setExtraDataVisible] = useState(false);
   const blogStyle = {
@@ -53,9 +39,6 @@ export const Blog = ({ blog, addLikes, removeBlog, user, setBlogs }) => {
         (a, b) => (a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0)
         //could also use return a.likes.localeCompare(b.likes)I think
       );
-
-      console.log(blogsByLikes);
-      // setBlogs(blogsByLikes);
     });
   };
 
@@ -124,76 +107,24 @@ const Blogs = () => {
     //could also use return a.likes.localeCompare(b.likes)I think
   );
 
-  // const removeBlog = (id, name) => {
-  //   if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-  //     blogService
-
-  //       .remove(id)
-  //       .then(() => {
-  //         const newBlogs = blogs.filter((b) => b.id !== id);
-  //         dispatch(initializeBlogs(newBlogs));
-  //         dispatch(setNotification(`you deleted '${name}'`, 10, "success"));
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         dispatch(setNotification("something went wrong", 10, "error"));
-  //         // notifyWith(`'${name}' was already removed from server`, error);
-  //         // setErrorMessage(`'${name}' was already removed from server`);
-  //         // setTimeout(() => {
-  //         //   setErrorMessage(null);
-  //         // }, 5000);
-  //         const updateBlogs = blogs.filter((p) => p.id !== id);
-  //         dispatch(initializeBlogs(updateBlogs));
-  //       });
-  //   } else {
-  //     alert("operation cancelled");
-  //   }
-  // };
-
-  // const addLikesTo = (id) => {
-  //   const blog = blogs.find((b) => b.id === id);
-  //   const changedBlog = {
-  //     ...blog,
-  //     likes: blog.likes + 1,
-  //   };
-
-  //   blogService.update(id, changedBlog).then((returnedBlog) => {
-  //     // let jsonBlog = JSON.parse(returnedBlog);
-  //     // nope server responds with object this throws error
-  //     //returnedBlog from server was not in a format that the front end totally could use.  The User object was missing - only had id.
-  //     let newBlogs = blogs.map((blog) => (blog.id !== id ? blog : changedBlog));
-  //     dispatch(initializeBlogs(newBlogs));
-  //     dispatch(setNotification(`you liked '${blog.title}'`, 10, "success"));
-  //   });
-  // };
-
   return (
-    <>
-      <div>
-        <h2>Blogs</h2>
-
-        {blogsByLikes.map((b) => (
-          <p key={b.id}>
-            <Link to={`/blogs/${b.id}`}>
-              {b.title}
-              {b.author}
-            </Link>
-          </p>
-        ))}
-      </div>
-      {/* <h2>Blogs</h2>
-        <ul>
-          {blogsByLikes.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              addLikes={() => addLikesTo(blog.id)}
-              removeBlog={() => removeBlog(blog.id, blog.title)}
-            />
+    <div>
+      <h2>Blogs</h2>
+      <Table striped>
+        <tbody>
+          {blogsByLikes.map((b) => (
+            <tr key={b.id}>
+              <td>
+                <Link to={`/blogs/${b.id}`}>
+                  {b.title}
+                  {b.author}
+                </Link>
+              </td>
+            </tr>
           ))}
-        </ul>
-      </div> */}
-    </>
+        </tbody>
+      </Table>
+    </div>
   );
 };
 

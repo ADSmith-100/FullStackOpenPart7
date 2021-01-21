@@ -5,34 +5,15 @@ import { setNotification } from "../reducers/notificationReducer";
 import { initializeUser } from "../reducers/userReducer";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
-
-//will need to refactor to save info about user with REDUX
+import { Form, Button } from "react-bootstrap";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // useEffect(() => {
-  //   dispatch(initializeUser());
-  //   //   // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  //   //   // if (loggedUserJSON) {
-  //   //   //   const user = JSON.parse(loggedUserJSON);
-  //   //   //   setUser(user);
-  //   //   //   console.log(user);
-  //   //   //   blogService.setToken(user.token);
-  //   //   // }
-  // }, [dispatch]);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // eslint-disable-next-line no-unused-vars
-  // const [user, setUser] = useState(null);
-
-  // const handleLogout = (e) => {
-  //   e.preventDefault();
-  //   window.localStorage.removeItem("loggedBlogappUser");
-  //   setUser(null);
-  // };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -55,29 +36,30 @@ const LoginForm = () => {
   return (
     <div>
       <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+        <Form.Group>
+          <Form.Label>username</Form.Label>
+          <Form.Control
             id="username"
             type="text"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-          password
-          <input
+
+          <Form.Label>password</Form.Label>
+
+          <Form.Control
             id="password"
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button id="login-button" type="submit">
-          login
-        </button>
+
+          <Button variant="primary" id="login-button" type="submit">
+            login
+          </Button>
+        </Form.Group>
       </form>
     </div>
   );

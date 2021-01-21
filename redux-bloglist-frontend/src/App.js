@@ -52,34 +52,36 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Router>
-      {/* <Menu /> */}
+    <div className="container">
+      <Router>
+        {/* <Menu /> */}
 
-      <div>
-        <h1>Blog App REDUX</h1>
-        <Notification />
-        <Menu user={user} />
-      </div>
+        <div>
+          <h1>Blog App REDUX</h1>
+          <Notification />
+          <Menu user={user} />
+        </div>
 
-      <Switch>
-        <Route path="/blogs/:id">
-          <BlogView blogs={blogs} user={user} />
-        </Route>
-        <Route path="/users/:id">
-          <UserBlogs />
-        </Route>
-        <Route path="/users">
-          {user ? <Users /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/login">
-          <LoginForm />
-        </Route>
-        <Route path="/">
-          <Blogs user={user} />
-          <NewBlog user={user} />
-        </Route>
-      </Switch>
-    </Router>
+        <Switch>
+          <Route path="/blogs/:id">
+            <BlogView blogs={blogs} user={user} />
+          </Route>
+          <Route path="/users/:id">
+            <UserBlogs />
+          </Route>
+          <Route path="/users">
+            {user ? <Users /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+          <Route path="/">
+            <Blogs user={user} />
+            <NewBlog user={user} />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 };
 export default App;
