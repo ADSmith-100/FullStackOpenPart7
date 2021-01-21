@@ -35,8 +35,9 @@ const create = async (title, author, url) => {
 
 const addComment = async (blogId, comment) => {
   const object = { comment: comment };
+  console.log(comment);
   // eslint-disable-next-line no-useless-escape
-  const response = await axios.post(`${baseUrl}\/${blogId}/comments`, object);
+  const response = await axios.post(`${baseUrl}/${blogId}/comments`, object);
   return response.data;
 };
 

@@ -8,15 +8,14 @@ const NewComment = (props) => {
   const dispatch = useDispatch();
   const blogId = props.blog.id;
   const blogs = props.blogs;
+  const blogTitle = props.blog.title;
 
-  const addComment = (event, blogId) => {
+  const addComment = async (event) => {
+    event.preventDefault();
     const comment = event.target.comment.value;
-    const changedBlog = {
-      comments: comment,
-    };
-    console.log(changedBlog);
-
-    blogService.addComment(blogId, comment).then((returnedBlog) => {
+    event.target.comment.value = "";
+    try {
+      const changedBlog = await blogService.addComment(blogId, comment);
       let newBlogs = blogs.map((blog) =>
         blog.id !== blogId ? blog : changedBlog
       );
@@ -24,14 +23,16 @@ const NewComment = (props) => {
       console.log("blogs", blogs);
       dispatch(initializeBlogs(newBlogs));
       dispatch(
-        setNotification(`you liked '${changedBlog.title}'`, 10, "success")
+        setNotification(`you commented on '${blogTitle}'`, 10, "success")
       );
-    });
+    } catch (error) {
+      dispatch(setNotification(error.response.data.error, 10, "error"));
+    }
   };
 
   return (
     <div>
-      <form onSubmit={() => addComment(blogId)}>
+      <form onSubmit={addComment}>
         <h2>Add a comment</h2>
         comment:
         <input name="comment" />

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import blogService from "../services/blogs";
@@ -9,9 +9,9 @@ import NewComment from "./NewComment";
 const BlogView = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(initializeBlogs());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(initializeBlogs());
+  // }, [dispatch]);
 
   const history = useHistory();
 
